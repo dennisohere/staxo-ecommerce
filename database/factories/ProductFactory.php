@@ -22,6 +22,7 @@ class ProductFactory extends Factory
             'name' => $name,
             'price' => $this->faker->numberBetween(30, 130),
             'slug' => Str::slug($name),
+            'imagePath' => $this->faker->imageUrl
         ];
     }
 }

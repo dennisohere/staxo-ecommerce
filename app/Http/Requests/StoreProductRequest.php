@@ -11,7 +11,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,12 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $product = $this->route('product');
+
         return [
-            //
+            'name' => 'required|string|unique:products,name,' . ($product ? $product->id : null),
+            'price' => 'required|numeric',
+            'image' => 'sometimes|image',
         ];
     }
 }
