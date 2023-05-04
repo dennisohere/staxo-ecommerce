@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('catalogue/{product:slug}', [ProductController::class, 'show'])->name('product.details');
+Route::post('catalogue/{product:slug}/buy', [ProductController::class, 'buy'])->name('product.buy');
+
+Route::get('orders/{order}/success', [\App\Http\Controllers\OrderController::class, 'success'])->name('order.success');
 
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
     Route::get('/dashboard', function () {

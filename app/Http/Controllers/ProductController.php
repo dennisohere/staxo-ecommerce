@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Services\OrderService;
 use App\Services\ProductService;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -43,6 +44,17 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return view('pages.product-details', compact('product'));
+    }
+
+    public function buy(Product $product, Request $request, OrderService $orderService)
+    {
+        $payload = $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $checkout_session = $orderService->placeOrder($product, $payload['email']);
+
+        return redirect()->to($checkout_session->url);
     }
 
     /**
